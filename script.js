@@ -121,7 +121,8 @@ function sortLeaderboard(column) {
         return 0;
     });
 
-    displayLeaderboard(leaderboardData);
+    // Reassign ranks after sorting
+    displayLeaderboard(leaderboardData.map((project, index) => ({ ...project, rank: index + 1 })));
 }
 
 function toggleDetails(index) {
