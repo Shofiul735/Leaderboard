@@ -58,6 +58,8 @@ tr:nth-child(even) {
     background-color: #e7f3fe;
     border: 1px solid #b3d4fc;
     border-radius: 5px;
+    width: 18%;
+    text-align: start;
 }
 
 .icon-coverage::before {
@@ -77,4 +79,35 @@ tr:nth-child(even) {
 }
 .icon-complexity::before {
     content: "⚙️"; /* Example icon for complexity */
+}
+
+.btn {
+    background-color: #7cc17e; /* Green with a slight gradient */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Space for an icon if needed */
+}
+
+.dt-center {
+    text-align: -webkit-center !important;
+    text-align: center !important;
+}
+
+.dt-center-details {
+    text-align: -webkit-center !important;
+    text-align: center !important;
+}
+
+#score-table td.dt-center-details {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

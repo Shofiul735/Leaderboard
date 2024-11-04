@@ -20,7 +20,14 @@ async function fetchSonarProjects() {
             };
         }));
 
-        displayLeaderboard(leaderboardData);
+        leaderboardData = leaderboardData.sort((a, b) => b.scoreDetails.totalScore - a.scoreDetails.totalScore);
+
+        leaderboardData.forEach((project, index) => {
+            project.rank = index + 1; // Highest score gets rank 1
+        });
+        
+        
+        return leaderboardData;
     } catch (error) {
         console.error("Error fetching SonarCloud data:", error);
     }
@@ -69,92 +76,56 @@ function calculateScore(measures) {
     return scoreDetails;
 }
 
-function displayLeaderboard(data) {
-    // Sort the data based on totalScore in descending order
-    data.sort((a, b) => b.scoreDetails.totalScore - a.scoreDetails.totalScore);
-    
-    // Assign ranks based on the sorted order
-    data.forEach((project, index) => {
-        project.rank = index + 1; // Highest score gets rank 1
-    });
+$(document).ready(async () => {
+    const data = await fetchSonarProjects();
 
-    const leaderboardDiv = document.getElementById("leaderboard");
-    leaderboardDiv.innerHTML = `<table>
-        <thead>
-            <tr>
-                <th onclick="sortLeaderboard('rank')">Rank</th>
-                <th onclick="sortLeaderboard('name')">Project Name</th>
-                <th onclick="sortLeaderboard('score')">Score</th>
-                <th>Details</th>
-            </tr>
-        </thead>
-        <tbody>
-            ${data.map(project => `
-                <tr class="project-row">
-                    <td>${project.rank}</td>
-                    <td>${project.name}</td>
-                    <td>${project.scoreDetails.totalScore}</td>
-                    <td>
-                        <button onclick="toggleDetails(${project.rank - 1})">Show Breakdown</button>
-                        <div id="details-${project.rank - 1}" class="details" style="display: none;">
-                            <p><i class="icon-coverage"></i> Code Coverage: ${project.scoreDetails.coverageScore}/20</p>
-                            <p><i class="icon-bugs"></i> Bugs: ${project.scoreDetails.bugsScore}/15</p>
-                            <p><i class="icon-vulnerabilities"></i> Vulnerabilities: ${project.scoreDetails.vulnerabilitiesScore}/15</p>
-                            <p><i class="icon-code-smells"></i> Code Smells: ${project.scoreDetails.codeSmellsScore}/20</p>
-                            <p><i class="icon-technical-debt"></i> Technical Debt: ${project.scoreDetails.technicalDebtScore}/20</p>
-                            <p><i class="icon-complexity"></i> Complexity: ${project.scoreDetails.complexityScore}/10</p>
-                        </div>
-                    </td>
-                </tr>
-            `).join('')}
-        </tbody>
-    </table>
-    <p><a href="https://github.com/Learnathon-By-Geeky-Solutions/.github/wiki/sonar-cloud" target="_blank">Scoring Policy</a></p>`;
-}
+    const table = new DataTable('#score-table',{
+        responsive:true,
+        data:data,
+        columns:[
+            {data:'rank',title:'Rank',className: 'dt-center'},
+            {data:'name',title:'Name',className: 'dt-center'},
+            {data:'scoreDetails.totalScore',title:'Score',className: 'dt-center'},
+            {
+                data: null,
+                title: 'Details',
+                orderable: false,
+                className: 'dt-center-details',
+                render: () => '<button class="show-details-btn btn">Show Details</button>'
+            }
+        ]
+    })
 
-function sortLeaderboard(column) {
-    if (currentSort.column === column) {
-        currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
-    } else {
-        currentSort.column = column;
-        currentSort.direction = 'asc';
-    }
+    $('#score-table tbody').on('click', 'button.show-details-btn', function () {
+        const tr = $(this).closest('tr');
+        const row = table.row(tr);
 
-    leaderboardData.sort((a, b) => {
-        const valA = column === 'name' ? a.name : a.scoreDetails.totalScore;
-        const valB = column === 'name' ? b.name : b.scoreDetails.totalScore;
-
-        if (valA > valB) return currentSort.direction === 'asc' ? 1 : -1;
-        if (valA < valB) return currentSort.direction === 'asc' ? -1 : 1;
-        return 0;
-    });
-
-    // Re-assign ranks after sorting
-    leaderboardData.forEach((project, index) => {
-        project.rank = index + 1; // Reassign rank
-    });
-
-    displayLeaderboard(leaderboardData);
-}
-
-function toggleDetails(index) {
-    const detailsDiv = document.getElementById(`details-${index}`);
-    detailsDiv.style.display = detailsDiv.style.display === "none" ? "block" : "none";
-}
-
-function searchProject() {
-    const searchBox = document.getElementById("searchBox");
-    const searchTerm = searchBox.value.toLowerCase();
-    
-    document.querySelectorAll(".project-row").forEach(row => {
-        const projectName = row.cells[1].textContent.toLowerCase();
-        if (projectName.includes(searchTerm)) {
-            row.style.display = "";  // Show matching rows
-            row.cells[1].innerHTML = row.cells[1].textContent.replace(new RegExp(searchTerm, "gi"), match => `<span class="highlight">${match}</span>`);
+        if (row.child.isShown()) {
+            // Close the row details
+            row.child.hide();
+            tr.removeClass('shown');
+            $(this).text('Show Details');
         } else {
-            row.style.display = "none";  // Hide non-matching rows
+            // Create details HTML with hidden score details
+            const rowData = row.data();
+            const detailsHtml = `
+                <div>
+                    <div class="details" style="float: right;">
+                        <p><i class="icon-coverage"></i><strong>Code Coverage:</strong> ${rowData.scoreDetails.coverageScore}/20</p>
+                        <p><i class="icon-bugs"></i><strong>Bugs:</strong> ${rowData.scoreDetails.bugsScore}/15</p>
+                        <p><i class="icon-vulnerabilities"></i><strong>Vulnerabilities:</strong> ${rowData.scoreDetails.vulnerabilitiesScore}/15</p>
+                        <p><i class="icon-code-smells"></i><strong>Code Smells:</strong> ${rowData.scoreDetails.codeSmellsScore}/20</p>
+                        <p><i class="icon-technical-debt"></i><strong>Technical Debt:</strong> ${rowData.scoreDetails.technicalDebtScore}/20</p>
+                        <p><i class="icon-complexity"></i><strong>Complexity Score:</strong> ${rowData.scoreDetails.complexityScore}/10</p>
+                    </div>
+                </div>
+            `;
+            row.child(detailsHtml).show();
+            tr.addClass('shown');
+            $(this).text('Hide Details');
         }
     });
-}
 
-fetchSonarProjects();
+})
+
+
