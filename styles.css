@@ -37,3 +37,37 @@ th {
 tr:nth-child(even) {
     background-color: #f2f2f2;
 }
+
+button {
+    padding: 5px 10px;
+    background-color: #4a90e2;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #357ab8;
+}
+
+.details {
+    margin-top: 10px;
+    text-align: left;
+}
+
+.icon-coverage::before { content: "🛡️"; }
+.icon-bugs::before { content: "🐞"; }
+.icon-vulnerabilities::before { content: "🔒"; }
+.icon-code-smells::before { content: "🛠️"; }
+.icon-technical-debt::before { content: "📉"; }
+.icon-complexity::before { content: "🔍"; }
+
+a {
+    color: #4a90e2;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
