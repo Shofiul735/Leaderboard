@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SonarCloud Leaderboard</title>
+    <title>Learnathon 3.0 Leaderboard</title>
+    <link rel="icon" href="Assets/fav.png" type="image/x-icon"> <!-- Update this path -->
     <link rel="stylesheet" href="styles.css">
-    <meta http-equiv="Content-Security-Policy" content="connect-src 'self' https://sonarcloud.io;">
 </head>
 <body>
-    <h1>BootCamp Code Quality Leaderboard</h1>
+    <h1>Leaderboard</h1>
+    <input type="text" id="searchBox" placeholder="Search project name..." oninput="searchProject()" />
     <div id="leaderboard"></div>
     <script src="script.js"></script>
 </body>

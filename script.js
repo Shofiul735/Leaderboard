@@ -1,5 +1,7 @@
 const organization = "{{SONARCLOUD_ORG_KEY}}"; // Placeholder to be replaced by GitHub Action
 const metrics = "coverage,bugs,vulnerabilities,code_smells,sqale_index,complexity";
+let leaderboardData = [];
+let currentSort = { column: null, direction: 'asc' };
 
 async function fetchSonarProjects() {
     try {
@@ -8,7 +10,7 @@ async function fetchSonarProjects() {
 
         const projects = data.components.map(project => project.key);
 
-        const leaderboard = await Promise.all(projects.map(async (projectKey) => {
+        leaderboardData = await Promise.all(projects.map(async (projectKey) => {
             const response = await fetch(`https://sonarcloud.io/api/measures/component?component=${projectKey}&metricKeys=${metrics}`);
             const projectData = await response.json();
 
@@ -18,7 +20,7 @@ async function fetchSonarProjects() {
             };
         }));
 
-        displayLeaderboard(leaderboard.sort((a, b) => b.scoreDetails.totalScore - a.scoreDetails.totalScore));
+        displayLeaderboard(leaderboardData.sort((a, b) => b.scoreDetails.totalScore - a.scoreDetails.totalScore));
     } catch (error) {
         console.error("Error fetching SonarCloud data:", error);
     }
@@ -72,15 +74,15 @@ function displayLeaderboard(data) {
     leaderboardDiv.innerHTML = `<table>
         <thead>
             <tr>
-                <th>Rank</th>
-                <th>Project Name</th>
-                <th>Score</th>
+                <th onclick="sortLeaderboard('rank')">Rank</th>
+                <th onclick="sortLeaderboard('name')">Project Name</th>
+                <th onclick="sortLeaderboard('score')">Score</th>
                 <th>Details</th>
             </tr>
         </thead>
         <tbody>
             ${data.map((project, index) => `
-                <tr>
+                <tr class="project-row">
                     <td>${index + 1}</td>
                     <td>${project.name}</td>
                     <td>${project.scoreDetails.totalScore}</td>
@@ -102,9 +104,44 @@ function displayLeaderboard(data) {
     <p><a href="https://github.com/Learnathon-By-Geeky-Solutions/.github/wiki/sonar-cloud" target="_blank">Scoring Policy</a></p>`;
 }
 
+function sortLeaderboard(column) {
+    if (currentSort.column === column) {
+        currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+    } else {
+        currentSort.column = column;
+        currentSort.direction = 'asc';
+    }
+
+    leaderboardData.sort((a, b) => {
+        const valA = column === 'name' ? a.name : a.scoreDetails.totalScore;
+        const valB = column === 'name' ? b.name : b.scoreDetails.totalScore;
+
+        if (valA > valB) return currentSort.direction === 'asc' ? 1 : -1;
+        if (valA < valB) return currentSort.direction === 'asc' ? -1 : 1;
+        return 0;
+    });
+
+    displayLeaderboard(leaderboardData);
+}
+
 function toggleDetails(index) {
     const detailsDiv = document.getElementById(`details-${index}`);
     detailsDiv.style.display = detailsDiv.style.display === "none" ? "block" : "none";
+}
+
+function searchProject() {
+    const searchBox = document.getElementById("searchBox");
+    const searchTerm = searchBox.value.toLowerCase();
+    
+    document.querySelectorAll(".project-row").forEach(row => {
+        const projectName = row.cells[1].textContent.toLowerCase();
+        if (projectName.includes(searchTerm)) {
+            row.style.display = "";  // Show matching rows
+            row.cells[1].innerHTML = row.cells[1].textContent.replace(new RegExp(searchTerm, "gi"), match => `<span class="highlight">${match}</span>`);
+        } else {
+            row.style.display = "none";  // Hide non-matching rows
+        }
+    });
 }
 
 fetchSonarProjects();
