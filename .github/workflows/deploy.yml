@@ -1,45 +1,46 @@
-name: Deploy SonarCloud Leaderboard to GitHub Pages
+# Simple workflow for deploying static content to GitHub Pages
+name: Deploy static content to Pages
 
 on:
+  # Runs on pushes targeting the default branch
   push:
-    branches:
-      - main  # Adjust if your default branch is different
+    branches: ["main"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
-  build:
+  # Single deploy job since we're just deploying
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Replace organization key in script.js
         run: |
           sed -i 's/{{SONARCLOUD_ORG_KEY}}/${{ secrets.SONARCLOUD_ORG_KEY }}/g' script.js
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          node-version: '16'
-
-      - name: Install dependencies
-        run: npm install  # Skip if you don’t have dependencies
-
-      - name: Build site
-        run: npm run build  # Skip if you don’t have a build step
-
-      - name: Upload artifact for GitHub Pages
-        uses: actions/upload-pages-artifact@v1
-        with:
-          path: ./  # Directory containing your HTML, CSS, and JS files
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      pages: write  # Required for deployment to GitHub Pages
-      id-token: write  # Required for OpenID Connect (OIDC) with GitHub Pages
-
-    steps:
+          # Upload entire repository
+          path: '.'
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v1
+        id: deployment
+        uses: actions/deploy-pages@v4
