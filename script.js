@@ -20,7 +20,7 @@ async function fetchSonarProjects() {
             };
         }));
 
-        displayLeaderboard(leaderboardData.sort((a, b) => b.scoreDetails.totalScore - a.scoreDetails.totalScore));
+        displayLeaderboard(leaderboardData);
     } catch (error) {
         console.error("Error fetching SonarCloud data:", error);
     }
@@ -70,6 +70,14 @@ function calculateScore(measures) {
 }
 
 function displayLeaderboard(data) {
+    // Sort the data based on totalScore in descending order
+    data.sort((a, b) => b.scoreDetails.totalScore - a.scoreDetails.totalScore);
+    
+    // Assign ranks based on the sorted order
+    data.forEach((project, index) => {
+        project.rank = index + 1; // Highest score gets rank 1
+    });
+
     const leaderboardDiv = document.getElementById("leaderboard");
     leaderboardDiv.innerHTML = `<table>
         <thead>
@@ -81,20 +89,20 @@ function displayLeaderboard(data) {
             </tr>
         </thead>
         <tbody>
-            ${data.map((project, index) => `
+            ${data.map(project => `
                 <tr class="project-row">
-                    <td>${index + 1}</td>
+                    <td>${project.rank}</td>
                     <td>${project.name}</td>
                     <td>${project.scoreDetails.totalScore}</td>
                     <td>
-                        <button onclick="toggleDetails(${index})">Show Breakdown</button>
-                        <div id="details-${index}" class="details" style="display: none;">
-                            <p><i class="icon-coverage"></i> Coverage: ${project.scoreDetails.coverageScore}</p>
-                            <p><i class="icon-bugs"></i> Bugs: ${project.scoreDetails.bugsScore}</p>
-                            <p><i class="icon-vulnerabilities"></i> Vulnerabilities: ${project.scoreDetails.vulnerabilitiesScore}</p>
-                            <p><i class="icon-code-smells"></i> Code Smells: ${project.scoreDetails.codeSmellsScore}</p>
-                            <p><i class="icon-technical-debt"></i> Technical Debt: ${project.scoreDetails.technicalDebtScore}</p>
-                            <p><i class="icon-complexity"></i> Complexity: ${project.scoreDetails.complexityScore}</p>
+                        <button onclick="toggleDetails(${project.rank - 1})">Show Breakdown</button>
+                        <div id="details-${project.rank - 1}" class="details" style="display: none;">
+                            <p><i class="icon-coverage"></i> Code Coverage: ${project.scoreDetails.coverageScore}/20</p>
+                            <p><i class="icon-bugs"></i> Bugs: ${project.scoreDetails.bugsScore}/15</p>
+                            <p><i class="icon-vulnerabilities"></i> Vulnerabilities: ${project.scoreDetails.vulnerabilitiesScore}/15</p>
+                            <p><i class="icon-code-smells"></i> Code Smells: ${project.scoreDetails.codeSmellsScore}/20</p>
+                            <p><i class="icon-technical-debt"></i> Technical Debt: ${project.scoreDetails.technicalDebtScore}/20</p>
+                            <p><i class="icon-complexity"></i> Complexity: ${project.scoreDetails.complexityScore}/10</p>
                         </div>
                     </td>
                 </tr>
@@ -121,8 +129,12 @@ function sortLeaderboard(column) {
         return 0;
     });
 
-    // Reassign ranks after sorting
-    displayLeaderboard(leaderboardData.map((project, index) => ({ ...project, rank: index + 1 })));
+    // Re-assign ranks after sorting
+    leaderboardData.forEach((project, index) => {
+        project.rank = index + 1; // Reassign rank
+    });
+
+    displayLeaderboard(leaderboardData);
 }
 
 function toggleDetails(index) {
