@@ -18,11 +18,75 @@
     </head>
     <body>
         <h1>Leaderboard</h1>
-        <section class="card">
-            <div>Hello</div>
+        <section class="mx-md-3 card p-md-5 w-100">
+            <div class="row gap-3 justify-content-center align-items-center">
+                <div class="col-12 col-md-3 col-lg-2 custom-items">
+                    <div class="card pt-3 third-place" style="width: 200px">
+                        <img
+                            src="./Assets/third-place.jpg"
+                            class="card-img-top"
+                            alt="Third place"
+                            style="width: 100px; margin: 0 auto"
+                        />
+                        <div class="card-body">
+                            <div class="card-text">
+                                <strong
+                                    >Score:
+                                    <span id="third-score">0</span></strong
+                                >
+                                <p id="third-team" class="text-truncate">
+                                    Team Name
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3 col-lg-2 custom-items">
+                    <div class="card pt-3 first-place" style="width: 200px">
+                        <img
+                            src="./Assets/first-place.jpg"
+                            class="card-img-top"
+                            alt="First Place"
+                            style="width: 100px; margin: 0 auto"
+                        />
+                        <div class="card-body">
+                            <div class="card-text">
+                                <strong
+                                    >Score:
+                                    <span id="first-score">0</span></strong
+                                >
+                                <p id="first-team" class="text-truncate">
+                                    Team Name
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3 col-lg-2 custom-items">
+                    <div class="card pt-3 second-place" style="width: 200px">
+                        <img
+                            src="./Assets/second-place.jpg"
+                            class="card-img-top"
+                            alt="second place"
+                            style="width: 100px; margin: 0 auto"
+                        />
+                        <div class="card-body">
+                            <div class="card-text">
+                                <strong
+                                    >Score:
+                                    <span id="second-score">0</span></strong
+                                >
+                                <p id="second-team" class="text-truncate">
+                                    Team Name
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
         <hr style="margin: 20px 0" />
-        <div style="margin: 0 auto; width: 90%">
+        <div class="mx-3">
             <table id="score-table"></table>
         </div>
         <script

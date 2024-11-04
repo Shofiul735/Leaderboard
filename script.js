@@ -126,6 +126,15 @@ $(document).ready(async () => {
         }
     });
 
+    // Leaderboard cards
+    $('#first-score').text(leaderboardData?.[0]?.scoreDetails?.totalScore ?? '')
+    $('#first-team').text(leaderboardData?.[0]?.name ?? '')
+
+    $('#second-score').text(leaderboardData?.[1]?.scoreDetails?.totalScore ?? '')
+    $('#second-team').text(leaderboardData?.[1]?.name ?? '')
+
+    $('#third-score').text(leaderboardData?.[2]?.scoreDetails?.totalScore ?? '')
+    $('#third-team').text(leaderboardData?.[2]?.name ?? '')
 })
 
 

@@ -111,3 +111,28 @@ tr:nth-child(even) {
     justify-content: center;
     align-items: center;
 }
+
+.first-place{
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.second-place{
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+.third-place{
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+@media only screen and (min-width: 768px){
+    .first-place{
+        margin-top: -1rem;
+    }
+}
+
+@media only screen and (max-width: 768px){
+    .custom-items{
+        position: relative;
+        top: 50%;
+        left: 50%;
+        transform: translate(-25%, 0%);
+    }
+}
