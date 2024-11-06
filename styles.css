@@ -3,7 +3,7 @@
 body {
     font-family: "Barlow", sans-serif;
     background-color: #E5E5E5;;
-    color: #333;
+    color: #fff;
     text-align: center;
 }
 
@@ -126,19 +126,13 @@ tr:nth-child(even) {
 }
 
 .first-place{
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    margin-top: -10rem;
 }
 .second-place{
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 .third-place{
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-}
-
-@media only screen and (min-width: 768px){
-    .first-place{
-        margin-top: -1rem;
-    }
 }
 
 @media only screen and (max-width: 768px){
@@ -257,4 +251,52 @@ tr:nth-child(even) {
     font-family: "Barlow", sans-serif;
     font-weight: 900;
     font-style: italic;
+}
+
+#place .card{
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none;
+}
+.custom-image{
+    position: relative;
+}
+
+.custom-image img{
+    border: 6px solid #071122;
+    border-radius: 50%;
+}
+
+.custom-badge{
+    background: #071122;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    position: absolute;
+    top: 84%;
+    left: 37%;
+    color: #fff;
+    
+}
+.card-text h4{
+    color: #fff !important;
+    font-size: 28.8px;
+    line-height: 43.2px;
+    margin-top: 1rem;
+    font-family: "Barlow", sans-serif;
+}
+
+.score img{
+    padding-bottom: 15px;
+    margin-right: 4px;
+}
+
+.score span{
+    font-size: 26px;
+    line-height: 39px;
+    margin-top: 1px;
+    color: #fff;
 }
