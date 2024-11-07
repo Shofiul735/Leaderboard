@@ -247,9 +247,15 @@ tr:nth-child(even) {
     position: relative;
 }
 
-.custom-image img{
+.custom-image img:not(.crown) {
     border: 6px solid #071122;
     border-radius: 50%;
+}
+
+.custom-image .crown{
+    position: absolute;
+    top: -26%;
+    left: 34%;
 }
 
 .custom-badge{

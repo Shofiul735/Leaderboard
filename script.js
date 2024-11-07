@@ -91,7 +91,7 @@ $(document).ready(async () => {
                 title: 'Details',
                 orderable: false,
                 className: 'dt-center-details',
-                render: () => '<button class="show-details-btn btn">Show Details</button>'
+                render: () => '<button class="show-details-btn btn btn-primary">Show Details</button>'
             }
         ]
     })
