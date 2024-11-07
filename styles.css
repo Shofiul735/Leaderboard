@@ -105,6 +105,9 @@ tr:nth-child(even) {
 .search-icon::before{
     content: "⌕";
 }
+.icon-bugs::before {
+    content: "🐛";
+}
 .icon-vulnerabilities::before {
     content: "🔒"; /* Example icon for vulnerabilities */
 }
@@ -414,6 +417,9 @@ label[for="dt-search-0"]{
 
 .dt-input::placeholder{
     color: #fff;
+}
+.dt-input:is(:focus,:focus-visible){
+    outline: none;
 }
 
 [type="search"]::-webkit-search-cancel-button {
