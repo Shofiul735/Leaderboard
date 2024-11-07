@@ -82,6 +82,7 @@ $(document).ready(async () => {
     const table = new DataTable('#score-table',{
         responsive:true,
         data:data,
+        bLengthChange: false,
         columns:[
             {data:'rank',title:'Rank',className: 'dt-center'},
             {data:'name',title:'Name',className: 'dt-center'},
@@ -104,24 +105,30 @@ $(document).ready(async () => {
             // Close the row details
             row.child.hide();
             tr.removeClass('shown');
+            $(this).removeClass('btn-light');
+            $(this).addClass('btn-primary')
             $(this).text('Show Details');
         } else {
             // Create details HTML with hidden score details
             const rowData = row.data();
             const detailsHtml = `
-                <div>
-                    <div class="details" style="float: right;">
-                        <p><i class="icon-coverage"></i><strong>Code Coverage:</strong> ${rowData.scoreDetails.coverageScore}/20</p>
-                        <p><i class="icon-bugs"></i><strong>Bugs:</strong> ${rowData.scoreDetails.bugsScore}/15</p>
-                        <p><i class="icon-vulnerabilities"></i><strong>Vulnerabilities:</strong> ${rowData.scoreDetails.vulnerabilitiesScore}/15</p>
-                        <p><i class="icon-code-smells"></i><strong>Code Smells:</strong> ${rowData.scoreDetails.codeSmellsScore}/20</p>
-                        <p><i class="icon-technical-debt"></i><strong>Technical Debt:</strong> ${rowData.scoreDetails.technicalDebtScore}/20</p>
-                        <p><i class="icon-complexity"></i><strong>Complexity Score:</strong> ${rowData.scoreDetails.complexityScore}/10</p>
+                <div class='deatils-parent'>
+                    <hr/>
+                    <div class="details">
+                        <p><i class="icon-coverage"></i>Code Coverage:<strong>${rowData.scoreDetails.coverageScore}/20</strong></p>
+                        <p><i class="icon-bugs"></i>Bugs:<strong>${rowData.scoreDetails.bugsScore}/15</strong></p>
+                        <p><i class="icon-vulnerabilities"></i>Vulnerabilities:<strong>${rowData.scoreDetails.vulnerabilitiesScore}/15</strong></p>
+                        <p><i class="icon-code-smells"></i>Code Smells:<strong>${rowData.scoreDetails.codeSmellsScore}/20</strong></p>
+                        <p><i class="icon-technical-debt"></i>Technical Debt:<strong>${rowData.scoreDetails.technicalDebtScore}/20</strong></p>
+                        <p><i class="icon-complexity"></i>Complexity Score:<strong>${rowData.scoreDetails.complexityScore}/10</strong></p>
                     </div>
+                    <hr/>
                 </div>
             `;
             row.child(detailsHtml).show();
             tr.addClass('shown');
+            $(this).removeClass('btn-primary')
+            $(this).addClass('btn-light')
             $(this).text('Hide Details');
         }
     });

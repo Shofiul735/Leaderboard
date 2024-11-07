@@ -7,6 +7,25 @@ body {
     text-align: center;
 }
 
+.leaderboard {
+    overflow-y: scroll;
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* Internet Explorer 10+ */
+}
+
+.leaderboard::-webkit-scrollbar {
+    /* WebKit */
+    width: 0;
+    height: 0;
+}
+
+#score-table{
+    border-collapse: separate;
+    border-spacing: 0 4px;
+}
+
 .leaderboard{
     background: radial-gradient(137.47% 202.31% at -4.93% 1.87%, #1B3765 48.83%, #1890BA 100%);
 }
@@ -65,14 +84,19 @@ tr:nth-child(even) {
     font-weight: bold;
 }
 
-.details {
-    margin-top: 10px;
-    padding: 10px;
-    background-color: #e7f3fe;
-    border: 1px solid #b3d4fc;
-    border-radius: 5px;
-    width: 18%;
-    text-align: start;
+.dt-input option{
+    background-color: #1B3765 !important;
+}
+
+.details{
+    display: inline-flex;
+    font-size: 12px;
+    width: 100%;
+    justify-content: space-evenly;
+
+    p{
+        margin: 1rem 0;
+    }
 }
 
 .icon-coverage::before {
@@ -238,6 +262,11 @@ tr:nth-child(even) {
     font-style: italic;
 }
 
+#place{
+    gap: 8rem;
+    margin: 30px 0;
+}
+
 #place .card{
     background-color: transparent !important;
     border: none !important;
@@ -268,16 +297,22 @@ tr:nth-child(even) {
     border-radius: 50%;
     position: absolute;
     top: 84%;
-    left: 37%;
+    left: 31%;
     color: #fff;
     
 }
+
+.custom-badge:not(:nth-child(2)){
+    left: 33%;
+}
+
 .card-text h4{
     color: #fff !important;
     font-size: 28.8px;
     line-height: 43.2px;
     margin-top: 1rem;
     font-family: "Barlow", sans-serif;
+    width: 350px;
 }
 
 .score img{
@@ -302,4 +337,67 @@ table > :is(thead,tbody) > tr > :is(th,td){
 
 table > thead > tr > th {
     background-color: transparent;
+}
+
+table.dataTable > thead {
+    background-color: transparent;
+}
+
+table.dataTable > :is(tbody)>tr {
+    background-color: #09172F;
+}
+
+
+@media only screen and (max-width:472px) {
+    .first-place{
+        margin-top:2.5rem;
+        transform: scale(1.2);
+    }
+}
+
+.deatils-parent hr{
+    margin: 0.1rem 0;
+}
+
+.footer{
+    height: 116px;
+    width: 100%;
+    background: #E5E5E5;
+    text-align: center;
+
+    .footer-div{
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        gap: 16px;
+
+        h3{
+            color: #1B3765;
+        }
+
+        img{
+            width: 161.33px;
+        }
+    }
+}
+
+.btn{
+    font-weight: 500;
+}
+
+.btn-primary{
+    background: #1890BA !important;
+}
+
+.btn-light{
+    color: #0097CB !important;
+    background-color: #fff !important;
+}
+
+.place-card{
+    width: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
