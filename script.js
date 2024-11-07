@@ -94,7 +94,14 @@ $(document).ready(async () => {
                 className: 'dt-center-details',
                 render: () => '<button class="show-details-btn btn btn-primary">Show Details</button>'
             }
-        ]
+        ],
+        layout: {
+            topEnd: {
+                search: {
+                    placeholder: 'Search here'
+                }
+            }
+        }
     })
 
     $('#score-table tbody').on('click', 'button.show-details-btn', function () {
