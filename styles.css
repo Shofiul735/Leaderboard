@@ -94,21 +94,6 @@ tr:nth-child(even) {
     content: "⚙️"; /* Example icon for complexity */
 }
 
-.btn {
-    background-color: #7cc17e; /* Green with a slight gradient */
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 8px 16px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 8px; /* Space for an icon if needed */
-}
-
 .dt-center {
     text-align: -webkit-center !important;
     text-align: center !important;
@@ -299,4 +284,16 @@ tr:nth-child(even) {
     line-height: 39px;
     margin-top: 1px;
     color: #fff;
+}
+
+table{
+    border: none !important;
+}
+
+table > :is(thead,tbody) > tr > :is(th,td){
+    border: none !important;
+}
+
+table > thead > tr > th {
+    background-color: transparent;
 }

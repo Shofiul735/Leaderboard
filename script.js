@@ -127,14 +127,23 @@ $(document).ready(async () => {
     });
 
     // Leaderboard cards
-    $('#first-score').text(leaderboardData?.[0]?.scoreDetails?.totalScore ?? '')
-    $('#first-team').text(leaderboardData?.[0]?.name ?? '')
+    let score = leaderboardData?.[0]?.scoreDetails?.totalScore;
+    let result = score ? `${score} pts` : '';
+    $('#first-score').text(result)
+    let team = leaderboardData?.[0]?.name;
+    $('#first-team').text(team)
 
-    $('#second-score').text(leaderboardData?.[1]?.scoreDetails?.totalScore ?? '')
-    $('#second-team').text(leaderboardData?.[1]?.name ?? '')
+    score = leaderboardData?.[1]?.scoreDetails?.totalScore;
+    result = score ? `${score} pts` : '';
+    $('#second-score').text(result)
+    team = leaderboardData?.[1]?.name;
+    $('#second-team').text(team)
 
-    $('#third-score').text(leaderboardData?.[2]?.scoreDetails?.totalScore ?? '')
-    $('#third-team').text(leaderboardData?.[2]?.name ?? '')
+    score = leaderboardData?.[2]?.scoreDetails?.totalScore;
+    result = score ? `${score} pts` : '';
+    $('#third-score').text(result);
+    team = leaderboardData?.[2]?.name;
+    $('#third-team').text(team)
 })
 
 
