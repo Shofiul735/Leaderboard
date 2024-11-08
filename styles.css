@@ -93,6 +93,7 @@ tr:nth-child(even) {
     font-size: 12px;
     width: 100%;
     justify-content: space-evenly;
+    gap: 10px;
 
     p{
         margin: 1rem 0;
@@ -147,7 +148,7 @@ tr:nth-child(even) {
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
-@media only screen and (max-width: 768px){
+@media only screen and (max-width: 767px){
     .custom-items{
         position: relative;
         top: 50%;
@@ -356,6 +357,33 @@ table.dataTable > :is(tbody)>tr {
         margin-top:2.5rem;
         transform: scale(1.2);
     }
+    .dt-layout-row{
+        overflow-x: scroll !important;
+    }
+    .dt-search{
+        text-align: end !important;
+    }
+    #place{
+        gap: 3rem;
+    }
+
+    .card-text h4{
+        font-size: 25px;
+        width: 250px;
+    }
+    .custom-items{
+        left: 9%;
+        width: 50%;
+    }
+}
+@media only screen and (max-width:912px) {
+    #place {
+        gap: 3rem;
+    }
+    .card-text h4 {
+        font-size: 25px;
+        width: 250px;
+    }
 }
 
 .deatils-parent hr{
@@ -429,4 +457,11 @@ label[for="dt-search-0"]{
     background-size: 20px 20px;
     height: 20px;
     width: 20px;
+}
+
+@media (max-width: 768px) {
+    #place {
+        gap: 3rem !important;
+    }
+
 }
